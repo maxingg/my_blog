@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+{% load staticfiles %}
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Home{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
+    <link rel="stylesheet" href="{% static 'css/extra.css '%}">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    {% block custom_css %}{% endblock %}
+  </head>
+ <body data-gr-c-s-loaded="true">
+     <div class="bg-extra">
+         <img src="{% static 'images/bg/1.jpg' %}"></img>
+     </div>
+    <div class="wrapper" style="background-color: #f2f2f2;">
+        <div class="tabs is-large is-mobile is-centered media-content">
+              <ul>
+                  <li class="{% if name == 'user' %}is-active{% endif %}">
+                      <a href="{% url 'user:userinfo' %}">
+                          <span class="icon is-small"><i class="fas fa-user-secret" aria-hidden="true"></i></span>
+                      <span>User</span>
+                      </a>
+                  </li>
+                  <li class="{% if name == 'albums' %}is-active{% endif %}">
+                  <a href="{% url 'albums:albums_wall' %}">
+                    <span class="icon is-small"><i class="fas fa-images" aria-hidden="true"></i></span>
+                    <span>Albums</span>
+                  </a>
+                </li>
+                <li class="{% if name == 'music' %}is-active{% endif %}">
+                  <a href="{% url 'xadmin' %}">
+                    <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>
+                    <span>后台管理</span>
+                  </a>
+                </li>
+                <li class="{% if name == 'articles' %}is-active{% endif %}">
+                  <a href="{% url 'articles:articles_list' %}">
+                    <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
+                    <span>Articles</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+        </div>
+    <div class="container container-extra">
+            {% block breadcrumb %}
+            <nav class="breadcrumb is-centered" aria-label="breadcrumbs">
+              <ul>
+                <li class="is-active">
+                  <a href="{% url 'home' %}" aria-current="page">
+                    <span class="icon is-small">
+                      <i class="fas fa-home" aria-hidden="true"></i>
+                    </span>
+                    <span>Home</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            {% endblock %}
+        </div>
+        {% block content %}
+            <div class="content container-extra is-small has-text-centered">
+                <h1>小戎</h1>
+                <h4><em>【作者】佚名&nbsp;&nbsp;&nbsp;【朝代】先秦</em></h4>
+                <h4>小戎俴收，五楘梁辀。游环胁驱，阴靷鋈续。</h4>
+                <h4>四牡孔阜，六辔在手。骐骝是中，騧骊是骖。</h4>
+                <h4>在其板屋，乱我心曲。</h4>
+                <h4>四牡孔阜，六辔在手。骐骝是中，騧骊是骖。</h4>
+                <h4>龙盾之合，鋈以觼軜。言念君子，温其在邑。</h4>
+                <h4>方何为期？胡然我念之。</h4>
+                <h4>俴驷孔群，厹矛鋈錞。蒙伐有苑，虎韔镂膺。</h4>
+                <h4>交韔二弓，竹闭绲滕。言念君子，载寝载兴。</h4>
+                <h4>厌厌良人，秩秩德音。</h4>
+                <p>  轻型战车浅车厢，五条皮带扎辕上。马背有环胁有扣，引车带环白铜镶。虎皮褥子长车毂，花马驾车白蹄扬。思念夫君人品好，性情温和玉一样。他去从军住板屋，使我心乱真惆怅。</p>
+                <p>  四匹公马壮又高，手中缰绳攥六条。青马红马中间驾，黄马黑马两边跑。龙纹盾牌双合起，内侧辔绳铜环套。思念夫君人品好，温馨但恨边邑遥。几时才能回家来？怎能想他不心焦？</p>
+                <p>  四马合群披甲轻，三棱矛柄套铜镦。盾牌上面绘鸟羽，虎皮弓囊雕花纹。两弓相交插囊中，竹制弓架缠紧绳。思念夫君人品好，睡下坐起心不定。温良文静我夫君，明慧有礼传美名。</p>
+            </div>
+        {% endblock %}
+    <div class="footer footer-extra">
+        <div class="content has-text-centered">
+            <p>
+              <strong>Blog made</strong> by <a href="#">WangYuchuan</a>. The source code is located in
+              <a href="https://github.com/">Here</a>.
+            </p>
+        </div>
+    </div>
+{% block custom_js %}
+ {% endblock %}
+</body>
+</html>

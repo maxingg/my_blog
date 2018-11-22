@@ -1,0 +1,68 @@
+{% extends 'blog_base.html' %}
+{% load staticfiles %}
+{% block title %}相册{% endblock %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'css/base.css ' %}">
+{% endblock %}
+{% block breadcrumb %}
+    <nav class="breadcrumb is-centered" aria-label="breadcrumb">
+        <ul>
+            <li>
+              <a href="{% url 'home' %}">
+                <span class="icon is-small">
+                  <i class="fas fa-home" aria-hidden="true"></i>
+                </span>
+                <span>Home</span>
+              </a>
+            </li>
+            <li class="is-active">
+              <a href="{% url 'albums:albums_wall' %}">
+                <span class="icon is-small">
+                  <i class="fas fa-images" aria-hidden="true"></i>
+                </span>
+                <span>Albums</span>
+              </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+        <div class="container content-layout-extra">
+				<div class="grid">
+                    {% for album in all_albums.object_list %}
+                        <a class="grid__item" href="{% url 'albums:album_content' album.id %}">
+                            <div class="grid__item-wrap">
+                                <div class="grid__item-img" style="background-image: url({{ MEDIA_URL }}{{ album.image }});"></div>
+                            </div>
+                            <span class="grid__item-year">{{ album.created.year }}</span>
+                            <h3 class="grid__item-title"><strong>{{ album.desc }}</strong></h3>
+                        </a>
+	                {% endfor %}
+				</div>
+			</div>
+        <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        {% if all_albums.has_previous %}
+            <a class="pagination-previous" href="?{{ all_albums.previous_page_number.querystring }}">Previous</a>
+        {% endif %}
+        {% if all_albums.has_next %}
+            <a class="pagination-next" href="?{{ all_albums.next_page_number.querystring }}">Next page</a>
+        {% endif %}
+      <ul class="pagination-list">
+        {% for page in all_albums.pages %}
+            {% if page %}
+                {% ifequal page all_albums.number %}
+                    <li><a class="pagination-link is-current"  href="?{{ page.querystring }}">{{ page }}</a></li>
+                {% else %}
+                    <li><a class="pagination-link" aria-label="Goto page {{ page }}" href="?{{ page.querystring }}">{{ page }}</a></li>
+                {% endifequal %}
+            {% else %}
+                <li><span class="pagination-ellipsis">&hellip;</span></li>
+            {% endif %}
+        {% endfor %}
+      </ul>
+</nav>
+{% endblock %}
+{% block custom_js %}
+{% endblock %}

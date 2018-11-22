@@ -1,0 +1,105 @@
+{% extends 'blog_base.html' %}
+{% load staticfiles %}
+{% block title %}文章{% endblock %}
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/default.css' %}">
+	<link href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+{% endblock %}
+{% block breadcrumb %}
+    <nav class="breadcrumb is-centered" aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="{% url 'home' %}">
+        <span class="icon is-small">
+          <i class="fas fa-home" aria-hidden="true"></i>
+        </span>
+        <span>Home</span>
+      </a>
+    </li>
+    <li class="is-active">
+      <a href="{% url 'articles:articles_list' %}">
+        <span class="icon is-small">
+          <i class="fas fa-file-alt" aria-hidden="true"></i>
+        </span>
+        <span>Articles</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container box">
+        <a class="button is-focused" href="?filter=">全选</a>
+        <a class="button is-primary is-focused" href="?filter=Python">Python</a>
+        <a class="button is-link is-focused" href="?filter=C">C++</a>
+        <a class="button is-info is-focused" href="?filter=Java">Java</a>
+        <a class="button is-success is-focused" href="?filter=Kaggle">Kaggle</a>
+        <a class="button is-warning is-focused">Focus</a>
+        <a class="button is-danger is-focused">Danger</a>
+    </div>
+     <article class="htmleaf-container">
+        {% for article in all_articles.object_list %}
+		<div class='container'>
+		  <div class='column' style="margin-left: 20%;">
+		    <div class='post-module'>
+		      <div class='thumbnail'>
+		        <img src='{{  MEDIA_URL }}{{ article.image }}'>
+		      </div>
+		      <div class='post-content'>
+		        <div class='category tag is-danger'>{{ article.tag }}</div>
+		        <h1 class='title'>{{ article.title }}</h1>
+		        <h2 class='sub_title'>{{ article.subtitle }}</h2>
+		        <p class='description'>{{ article.desc }}</p>
+		        <div class='post-meta'>
+		          <span class='timestamp'>
+		            <i class='fal fa-clock'></i>
+		            {{ article.created }}
+		          </span>
+		          <span class='comments'>
+		           <a class="button" href="{% url 'articles:article_detail' article.id %}">查看详情</a>
+		          </span>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+        {% endfor %}
+    </article>
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        {% if all_articles.has_previous %}
+            <a class="pagination-previous" href="?{{ all_articles.previous_page_number.querystring }}">Previous</a>
+        {% endif %}
+        {% if all_articles.has_next %}
+            <a class="pagination-next" href="?{{ all_articles.next_page_number.querystring }}">Next page</a>
+        {% endif %}
+      <ul class="pagination-list">
+        {% for page in all_articles.pages %}
+            {% if page %}
+                {% ifequal page all_articles.number %}
+                    <li><a class="pagination-link is-current"  href="?{{ page.querystring }}">{{ page }}</a></li>
+                {% else %}
+                    <li><a class="pagination-link" aria-label="Goto page {{ page }}" href="?{{ page.querystring }}">{{ page }}</a></li>
+                {% endifequal %}
+            {% else %}
+                <li><span class="pagination-ellipsis">&hellip;</span></li>
+            {% endif %}
+        {% endfor %}
+      </ul>
+</nav>
+{% endblock %}
+{% block custom_js %}
+<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+	<script type="text/javascript">
+		$(window).load(function () {
+		    $('.post-module').hover(function () {
+		        $(this).find('.description').stop().animate({
+		            height: 'toggle',
+		            opacity: 'toggle'
+		        }, 300);
+		    });
+		});
+	</script>
+{% endblock %}
